@@ -1,0 +1,4 @@
+version: v1
+directories:
+  - sources/inventory/v1
+  - sources/order/v1
