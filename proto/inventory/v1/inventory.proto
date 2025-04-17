@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package inventory.v1;
 
-option go_package = "github.com/suyundykovv/protos/gen/go/inventory/v1;inventorypb";
+option go_package = "suyundykovv/inventory/v1;inventorypb";
 
 import "google/protobuf/empty.proto";
 import "google/protobuf/timestamp.proto";
