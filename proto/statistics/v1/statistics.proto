@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package statistics.v1;
+
+option go_package = "suyundykovv/statistics/v1;statisticspb";
+
+service StatisticsService {
+  rpc GetUserOrdersStatistics(GetUserOrdersStatisticsRequest) returns (GetUserOrdersStatisticsResponse);
+  rpc GetUserStatistics(GetUserStatisticsRequest) returns (GetUserStatisticsResponse);
+}
+
+message GetUserOrdersStatisticsRequest {
+  string user_id = 1;
+  optional string time_period = 2; // "day", "week", "month", "year"
+}
+
+message GetUserOrdersStatisticsResponse {
+  int32 total_orders = 1;
+  double average_order_value = 2;
+  map<int32, int32> orders_by_hour = 3; // hour -> count
+  map<int32, int32> orders_by_day = 4;  // day of week -> count
+  string favorite_category = 5;
+}
+
+message GetUserStatisticsRequest {
+  optional string time_period = 1;
+}
+
+message GetUserStatisticsResponse {
+  int32 total_users = 1;
+  int32 active_users = 2;
+  double average_orders_per_user = 3;
+  string most_active_time = 4; // "morning", "afternoon", "evening", "night"
+}
