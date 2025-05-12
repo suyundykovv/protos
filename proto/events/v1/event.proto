@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package event.v1;
+
+option go_package = "suyundykovv/event/v1;eventpb";
+
+message OrderEvent {
+  string id = 1;
+  string user_id = 2;
+  repeated string items = 3;
+  double total = 4;
+  string status = 5;
+  int64 created_at = 6;
+  string event_type = 7;
+}
+
+message InventoryEvent {
+    string product_id = 1;
+    string name = 2;
+    string category_id = 3;
+    double price = 4;
+    string stock = 5;
+    string event_type = 6;
+  }
