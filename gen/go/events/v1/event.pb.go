@@ -23,13 +23,13 @@ const (
 
 type OrderEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Items         []string               `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
-	Total         float64                `protobuf:"fixed64,4,opt,name=total,proto3" json:"total,omitempty"`
-	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
-	CreatedAt     int64                  `protobuf:"varint,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	EventType     string                 `protobuf:"bytes,7,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	EventType     string                 `protobuf:"bytes,1,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	OrderId       string                 `protobuf:"bytes,2,opt,name=order_id,json=orderId,proto3" json:"order_id,omitempty"`
+	UserId        string                 `protobuf:"bytes,3,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	Items         []string               `protobuf:"bytes,4,rep,name=items,proto3" json:"items,omitempty"`
+	Total         float64                `protobuf:"fixed64,5,opt,name=total,proto3" json:"total,omitempty"`
+	Status        string                 `protobuf:"bytes,6,opt,name=status,proto3" json:"status,omitempty"`
+	OccurredAt    int64                  `protobuf:"varint,7,opt,name=occurred_at,json=occurredAt,proto3" json:"occurred_at,omitempty"` // Unix timestamp
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -64,9 +64,16 @@ func (*OrderEvent) Descriptor() ([]byte, []int) {
 	return file_events_v1_event_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *OrderEvent) GetId() string {
+func (x *OrderEvent) GetEventType() string {
 	if x != nil {
-		return x.Id
+		return x.EventType
+	}
+	return ""
+}
+
+func (x *OrderEvent) GetOrderId() string {
+	if x != nil {
+		return x.OrderId
 	}
 	return ""
 }
@@ -99,28 +106,22 @@ func (x *OrderEvent) GetStatus() string {
 	return ""
 }
 
-func (x *OrderEvent) GetCreatedAt() int64 {
+func (x *OrderEvent) GetOccurredAt() int64 {
 	if x != nil {
-		return x.CreatedAt
+		return x.OccurredAt
 	}
 	return 0
 }
 
-func (x *OrderEvent) GetEventType() string {
-	if x != nil {
-		return x.EventType
-	}
-	return ""
-}
-
 type InventoryEvent struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ProductId     string                 `protobuf:"bytes,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	CategoryId    string                 `protobuf:"bytes,3,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
-	Price         float64                `protobuf:"fixed64,4,opt,name=price,proto3" json:"price,omitempty"`
-	Stock         string                 `protobuf:"bytes,5,opt,name=stock,proto3" json:"stock,omitempty"`
-	EventType     string                 `protobuf:"bytes,6,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	EventType     string                 `protobuf:"bytes,1,opt,name=event_type,json=eventType,proto3" json:"event_type,omitempty"`
+	ProductId     string                 `protobuf:"bytes,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	CategoryId    string                 `protobuf:"bytes,4,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	Price         float64                `protobuf:"fixed64,5,opt,name=price,proto3" json:"price,omitempty"`
+	Stock         string                 `protobuf:"bytes,6,opt,name=stock,proto3" json:"stock,omitempty"`
+	OccurredAt    int64                  `protobuf:"varint,7,opt,name=occurred_at,json=occurredAt,proto3" json:"occurred_at,omitempty"` // Unix timestamp
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -153,6 +154,13 @@ func (x *InventoryEvent) ProtoReflect() protoreflect.Message {
 // Deprecated: Use InventoryEvent.ProtoReflect.Descriptor instead.
 func (*InventoryEvent) Descriptor() ([]byte, []int) {
 	return file_events_v1_event_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *InventoryEvent) GetEventType() string {
+	if x != nil {
+		return x.EventType
+	}
+	return ""
 }
 
 func (x *InventoryEvent) GetProductId() string {
@@ -190,39 +198,41 @@ func (x *InventoryEvent) GetStock() string {
 	return ""
 }
 
-func (x *InventoryEvent) GetEventType() string {
+func (x *InventoryEvent) GetOccurredAt() int64 {
 	if x != nil {
-		return x.EventType
+		return x.OccurredAt
 	}
-	return ""
+	return 0
 }
 
 var File_events_v1_event_proto protoreflect.FileDescriptor
 
 const file_events_v1_event_proto_rawDesc = "" +
 	"\n" +
-	"\x15events/v1/event.proto\x12\bevent.v1\"\xb7\x01\n" +
+	"\x15events/v1/event.proto\x12\bevent.v1\"\xc4\x01\n" +
 	"\n" +
-	"OrderEvent\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
-	"\auser_id\x18\x02 \x01(\tR\x06userId\x12\x14\n" +
-	"\x05items\x18\x03 \x03(\tR\x05items\x12\x14\n" +
-	"\x05total\x18\x04 \x01(\x01R\x05total\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\tR\x06status\x12\x1d\n" +
+	"OrderEvent\x12\x1d\n" +
 	"\n" +
-	"created_at\x18\x06 \x01(\x03R\tcreatedAt\x12\x1d\n" +
-	"\n" +
-	"event_type\x18\a \x01(\tR\teventType\"\xaf\x01\n" +
+	"event_type\x18\x01 \x01(\tR\teventType\x12\x19\n" +
+	"\border_id\x18\x02 \x01(\tR\aorderId\x12\x17\n" +
+	"\auser_id\x18\x03 \x01(\tR\x06userId\x12\x14\n" +
+	"\x05items\x18\x04 \x03(\tR\x05items\x12\x14\n" +
+	"\x05total\x18\x05 \x01(\x01R\x05total\x12\x16\n" +
+	"\x06status\x18\x06 \x01(\tR\x06status\x12\x1f\n" +
+	"\voccurred_at\x18\a \x01(\x03R\n" +
+	"occurredAt\"\xd0\x01\n" +
 	"\x0eInventoryEvent\x12\x1d\n" +
 	"\n" +
-	"product_id\x18\x01 \x01(\tR\tproductId\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1f\n" +
-	"\vcategory_id\x18\x03 \x01(\tR\n" +
-	"categoryId\x12\x14\n" +
-	"\x05price\x18\x04 \x01(\x01R\x05price\x12\x14\n" +
-	"\x05stock\x18\x05 \x01(\tR\x05stock\x12\x1d\n" +
+	"event_type\x18\x01 \x01(\tR\teventType\x12\x1d\n" +
 	"\n" +
-	"event_type\x18\x06 \x01(\tR\teventTypeB\x1eZ\x1csuyundykovv/event/v1;eventpbb\x06proto3"
+	"product_id\x18\x02 \x01(\tR\tproductId\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12\x1f\n" +
+	"\vcategory_id\x18\x04 \x01(\tR\n" +
+	"categoryId\x12\x14\n" +
+	"\x05price\x18\x05 \x01(\x01R\x05price\x12\x14\n" +
+	"\x05stock\x18\x06 \x01(\tR\x05stock\x12\x1f\n" +
+	"\voccurred_at\x18\a \x01(\x03R\n" +
+	"occurredAtB\x1eZ\x1csuyundykovv/event/v1;eventpbb\x06proto3"
 
 var (
 	file_events_v1_event_proto_rawDescOnce sync.Once
