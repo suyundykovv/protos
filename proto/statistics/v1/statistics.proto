@@ -32,3 +32,25 @@ message GetUserStatisticsResponse {
   double average_orders_per_user = 3;
   string most_active_time = 4; // "morning", "afternoon", "evening", "night"
 }
+
+// Add this new message for the NATS updates
+message StatisticsUpdate {
+  string timestamp = 1;
+  oneof update_type {
+    UserStatisticsUpdate user_stats = 2;
+    OrderStatisticsUpdate order_stats = 3;
+  }
+}
+
+message UserStatisticsUpdate {
+  int32 total_users = 1;
+  int32 active_users = 2;
+  double average_orders_per_user = 3;
+  string most_active_time = 4;
+}
+
+message OrderStatisticsUpdate {
+  int32 total_orders = 1;
+  double average_order_value = 2;
+  string most_popular_category = 3;
+}
